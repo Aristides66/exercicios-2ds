@@ -1,35 +1,23 @@
 const Notificacao = require("./Notificacao")
 // CRIE SUA SOLUÇÃO ABAIXO ================
 
-const {
-  NotificacaoEmail,
-  NotificacaoSMS,
-  NotificacaoApp
-} = require("./notificacao")
-
-class NotificacaoFactory {
+class Factory {
   static criar(tipo, mensagem) {
     switch (tipo) {
       case "email":
-        return new NotificacaoEmail(mensagem)
+        return new Notificacao.Email(mensagem)
 
       case "sms":
-        return new NotificacaoSMS(mensagem)
+        return new Notificacao.SMS(mensagem)
 
       case "app":
-        return new NotificacaoApp(mensagem)
+        return new Notificacao.App(mensagem)
 
       default:
         throw new Error("Tipo de notificação inválido")
     }
   }
 }
-
-module.exports = NotificacaoFactory
-
-
-
-
 
 // === FIM DO CÓDIGO =======================
 // === NÃO FAZER NADA ABAIXO DESSA LINHA ===

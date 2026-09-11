@@ -1,5 +1,4 @@
 // CRIE SUA SOLUÇÃO ABAIXO ================
-
 class Notificacao {
   constructor(mensagem) {
     this.mensagem = mensagem
@@ -10,34 +9,23 @@ class Notificacao {
   }
 }
 
-class NotificacaoEmail extends Notificacao {
+class Email extends Notificacao {
   enviar() {
     return `E-mail enviado: ${this.mensagem}`
   }
 }
 
-class NotificacaoSMS extends Notificacao {
+class SMS extends Notificacao {
   enviar() {
     return `SMS enviado: ${this.mensagem}`
   }
 }
 
-class NotificacaoApp extends Notificacao {
+class App extends Notificacao {
   enviar() {
     return `Notificação no aplicativo: ${this.mensagem}`
   }
 }
-
-module.exports = {
-  Notificacao,
-  NotificacaoEmail,
-  NotificacaoSMS,
-  NotificacaoApp
-}
-
-
-
-
 
 // === FIM DO CÓDIGO =======================
 // === NÃO FAZER NADA ABAIXO DESSA LINHA ===
