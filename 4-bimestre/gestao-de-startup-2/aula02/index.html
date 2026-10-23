@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Conheça a Biblioteca EntreNós e acompanhe o funil AARRR do produto."
+    />
+    <title>Biblioteca EntreNós | Funil AARRR</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: #19332e;
+        background: #f3f7f4;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        padding: 44px 20px;
+        background:
+          radial-gradient(ellipse at 5% 5%, #dcece2 0, transparent 32%),
+          #f3f7f4;
+      }
+
+      button,
+      select {
+        font: inherit;
+      }
+
+      button {
+        min-height: 46px;
+        padding: 0 18px;
+        border: 0;
+        border-radius: 12px;
+        background: #286246;
+        color: #fff;
+        cursor: pointer;
+        font-weight: 700;
+        transition: background 150ms ease, transform 150ms ease;
+      }
+
+      button:hover:not(:disabled) {
+        transform: translateY(-1px);
+        background: #1e5038;
+      }
+
+      button:focus-visible,
+      select:focus-visible {
+        outline: 3px solid #8db9a0;
+        outline-offset: 3px;
+      }
+
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.48;
+      }
+
+      .page {
+        width: min(100%, 880px);
+        margin: 0 auto;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+        color: #315c4c;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .brand-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border-radius: 14px;
+        background: #dcece2;
+        font-size: 1.35rem;
+      }
+
+      .card {
+        overflow: hidden;
+        border: 1px solid #e3ebe5;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow: 0 20px 60px rgb(28 61 47 / 8%);
+      }
+
+      .intro {
+        padding: 38px 40px 32px;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: #56816b;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 500;
+      }
+
+      h1 {
+        max-width: 680px;
+        font-size: clamp(2rem, 6vw, 3.1rem);
+        letter-spacing: -0.045em;
+        line-height: 1.08;
+      }
+
+      .description {
+        max-width: 650px;
+        margin: 18px 0 0;
+        color: #60746c;
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .product-actions {
+        display: grid;
+        gap: 12px;
+        padding: 26px 40px 30px;
+        border-top: 1px solid #edf1ed;
+        background: #fbfcfb;
+      }
+
+      .product-actions h2 {
+        margin-bottom: 2px;
+        font-size: 1.45rem;
+      }
+
+      .actions-intro {
+        margin: 0 0 6px;
+        color: #687a71;
+        line-height: 1.55;
+      }
+
+      .action-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 16px;
+        border: 1px solid #e7ede8;
+        border-radius: 14px;
+        background: #fff;
+      }
+
+      .action-copy {
+        display: grid;
+        gap: 3px;
+      }
+
+      .action-copy strong {
+        font-size: 0.97rem;
+      }
+
+      .action-copy span {
+        color: #718078;
+        font-size: 0.83rem;
+        line-height: 1.4;
+      }
+
+      .nps-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nps-form label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        clip-path: inset(50%);
+      }
+
+      select {
+        min-height: 46px;
+        padding: 0 12px;
+        border: 1px solid #cbd8ce;
+        border-radius: 12px;
+        background: #fff;
+        color: #19332e;
+        cursor: pointer;
+      }
+
+      .message {
+        min-height: 1.5em;
+        margin: 2px 0 0;
+        color: #315c4c;
+        font-size: 0.9rem;
+      }
+
+      .funnel {
+        padding: 30px 40px 34px;
+      }
+
+      .funnel-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 8px;
+      }
+
+      .funnel-heading h2 {
+        font-size: 1.65rem;
+      }
+
+      .visit-total {
+        color: #718078;
+        font-size: 0.88rem;
+        text-align: right;
+      }
+
+      .funnel-intro {
+        margin: 0 0 18px;
+        color: #687a71;
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+
+      .funnel-list {
+        display: grid;
+        gap: 9px;
+      }
+
+      .funnel-stage {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        align-items: center;
+        gap: 18px;
+        min-height: 78px;
+        padding: 14px 18px;
+        border: 1px solid #e7ede8;
+        border-radius: 15px;
+        background: #fbfcfb;
+        transition: border-color 150ms ease, background 150ms ease;
+      }
+
+      .stage-name {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .stage-letter {
+        display: grid;
+        flex: 0 0 36px;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border-radius: 12px;
+        background: #eaf3ed;
+        color: #286246;
+        font-weight: 800;
+      }
+
+      .stage-name strong,
+      .stage-name small {
+        display: block;
+      }
+
+      .stage-name strong {
+        font-size: 0.98rem;
+      }
+
+      .stage-name small {
+        margin-top: 3px;
+        color: #718078;
+        font-size: 0.8rem;
+      }
+
+      .stage-count {
+        min-width: 46px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.85rem;
+        line-height: 1;
+        text-align: right;
+      }
+
+      .stage-conversion {
+        min-width: 126px;
+        color: #60746c;
+        font-size: 0.82rem;
+        line-height: 1.45;
+        text-align: right;
+      }
+
+      .stage-conversion strong {
+        display: block;
+        color: #315c4c;
+        font-size: 0.9rem;
+      }
+
+      .funnel-stage.largest-drop {
+        border-color: #e6a49e;
+        background: #fff0ee;
+        box-shadow: inset 4px 0 #c64d43;
+      }
+
+      .largest-drop .stage-letter,
+      .largest-drop .stage-conversion strong {
+        background: #f9ddda;
+        color: #a63830;
+      }
+
+      .largest-drop .stage-letter {
+        background: #f9ddda;
+      }
+
+      .drop-badge {
+        display: inline-block;
+        margin-top: 3px;
+        padding: 2px 7px;
+        border-radius: 999px;
+        background: #f9ddda;
+        color: #a63830;
+        font-size: 0.72rem;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      .funnel-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .storage-note {
+        margin: 0;
+        color: #718078;
+        font-size: 0.82rem;
+        line-height: 1.5;
+      }
+
+      .clear-button {
+        min-height: 40px;
+        padding: 0 14px;
+        border: 1px solid #d9e2db;
+        background: #fff;
+        color: #52665b;
+        font-size: 0.85rem;
+        white-space: nowrap;
+      }
+
+      .clear-button:hover:not(:disabled) {
+        background: #f3f7f4;
+        color: #19332e;
+      }
+
+      @media (max-width: 620px) {
+        body {
+          padding: 26px 14px;
+        }
+
+        .intro,
+        .product-actions,
+        .funnel {
+          padding-right: 20px;
+          padding-left: 20px;
+        }
+
+        .action-row {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .action-row > button,
+        .nps-form,
+        .nps-form select,
+        .nps-form button {
+          width: 100%;
+        }
+
+        .nps-form {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .funnel-stage {
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 8px 12px;
+          padding: 13px;
+        }
+
+        .stage-conversion {
+          grid-column: 1 / -1;
+          min-width: 0;
+          padding-left: 48px;
+          text-align: left;
+        }
+
+        .stage-conversion strong {
+          display: inline;
+          margin-right: 5px;
+        }
+
+        .funnel-heading {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .visit-total {
+          text-align: left;
+        }
+
+        .funnel-footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="brand" aria-label="Biblioteca EntreNós">
+        <span class="brand-icon" aria-hidden="true">📚</span>
+        <span>Biblioteca EntreNós</span>
+      </div>
+
+      <section class="card" aria-labelledby="page-title">
+        <header class="intro">
+          <p class="eyebrow">Livros que circulam, histórias que aproximam</p>
+          <h1 id="page-title">Leia mais. Compartilhe histórias.</h1>
+          <p class="description">
+            Encontre e empreste livros de outras pessoas da comunidade.
+            Cada leitura ganha uma nova vida — e cada livro aproxima leitores.
+          </p>
+        </header>
+
+        <section class="product-actions" aria-labelledby="experience-title">
+          <h2 id="experience-title">Descubra a Biblioteca EntreNós</h2>
+          <p class="actions-intro">
+            Explore a ideia e conte como cada etapa da experiência funciona para você.
+          </p>
+
+          <div class="action-row">
+            <div class="action-copy">
+              <strong>Comece por aqui</strong>
+              <span>Conheça a comunidade de troca de livros.</span>
+            </div>
+            <button id="try-button" type="button">Experimentar</button>
+          </div>
+
+          <div class="action-row">
+            <div class="action-copy">
+              <strong>Você voltaria?</strong>
+              <span>Conte se usaria a biblioteca novamente.</span>
+            </div>
+            <button id="return-button" type="button" disabled>
+              Quero usar de novo
+            </button>
+          </div>
+
+          <div class="action-row">
+            <div class="action-copy">
+              <strong>O produto entrega valor?</strong>
+              <span>Indique se pagaria por este serviço.</span>
+            </div>
+            <button id="pay-button" type="button" disabled>
+              Eu pagaria por isso
+            </button>
+          </div>
+
+          <div class="action-row">
+            <div class="action-copy">
+              <strong>Recomendaria para alguém?</strong>
+              <span>Notas 9 e 10 contam como recomendação no funil.</span>
+            </div>
+            <form class="nps-form" id="nps-form">
+              <label for="rating">Nota de recomendação de 0 a 10</label>
+              <select id="rating" name="rating" required disabled>
+                <option value="" selected disabled>Nota (0–10)</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+              <button id="submit-rating" type="submit" disabled>
+                Enviar nota
+              </button>
+            </form>
+          </div>
+          <p class="message" id="action-message" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="funnel" aria-labelledby="funnel-title">
+          <div class="funnel-heading">
+            <h2 id="funnel-title">Funil AARRR</h2>
+            <span class="visit-total" id="visit-total">0 aquisições</span>
+          </div>
+          <p class="funnel-intro">
+            A conversão mostra quantas pessoas avançaram da etapa anterior.
+            O destaque vermelho indica a maior queda percentual.
+          </p>
+
+          <div class="funnel-list" id="funnel-list" aria-live="polite">
+            <article class="funnel-stage" data-stage="acquisition">
+              <div class="stage-name">
+                <span class="stage-letter" aria-hidden="true">A</span>
+                <span><strong>Aquisição</strong><small>Pessoas que abriram a página</small></span>
+              </div>
+              <strong class="stage-count" id="count-acquisition">0</strong>
+              <div class="stage-conversion" id="conversion-acquisition">Entrada do funil</div>
+            </article>
+
+            <article class="funnel-stage" data-stage="activation">
+              <div class="stage-name">
+                <span class="stage-letter" aria-hidden="true">A</span>
+                <span><strong>Ativação</strong><small>Clicaram em “Experimentar”</small></span>
+              </div>
+              <strong class="stage-count" id="count-activation">0</strong>
+              <div class="stage-conversion" id="conversion-activation"></div>
+            </article>
+
+            <article class="funnel-stage" data-stage="retention">
+              <div class="stage-name">
+                <span class="stage-letter" aria-hidden="true">R</span>
+                <span><strong>Retenção</strong><small>Clicaram em “Quero usar de novo”</small></span>
+              </div>
+              <strong class="stage-count" id="count-retention">0</strong>
+              <div class="stage-conversion" id="conversion-retention"></div>
+            </article>
+
+            <article class="funnel-stage" data-stage="revenue">
+              <div class="stage-name">
+                <span class="stage-letter" aria-hidden="true">R</span>
+                <span><strong>Receita</strong><small>Clicaram em “Eu pagaria por isso”</small></span>
+              </div>
+              <strong class="stage-count" id="count-revenue">0</strong>
+              <div class="stage-conversion" id="conversion-revenue"></div>
+            </article>
+
+            <article class="funnel-stage" data-stage="recommendation">
+              <div class="stage-name">
+                <span class="stage-letter" aria-hidden="true">R</span>
+                <span><strong>Recomendação</strong><small>Deram nota 9 ou 10 no NPS</small></span>
+              </div>
+              <strong class="stage-count" id="count-recommendation">0</strong>
+              <div class="stage-conversion" id="conversion-recommendation"></div>
+            </article>
+          </div>
+
+          <div class="funnel-footer">
+            <p class="storage-note">
+              Os números ficam salvos no localStorage deste navegador.
+              Cada abertura da página registra uma aquisição.
+            </p>
+            <button class="clear-button" id="clear-funnel" type="button">
+              Zerar métricas
+            </button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      const STORAGE_KEY = "biblioteca-entrenos-aarrr";
+      const stageOrder = [
+        "acquisition",
+        "activation",
+        "retention",
+        "revenue",
+        "recommendation",
+      ];
+      const emptyCounts = {
+        acquisition: 0,
+        activation: 0,
+        retention: 0,
+        revenue: 0,
+        recommendation: 0,
+      };
+      const storedCounts = localStorage.getItem(STORAGE_KEY);
+      let counts = storedCounts ? JSON.parse(storedCounts) : { ...emptyCounts };
+      const journey = {
+        activation: false,
+        retention: false,
+        revenue: false,
+        recommendation: false,
+      };
+
+      for (const stage of stageOrder) {
+        if (!Number.isSafeInteger(counts[stage]) || counts[stage] < 0) {
+          throw new Error(`Contagem inválida para a etapa "${stage}".`);
+        }
+      }
+
+      function saveCounts() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(counts));
+      }
+
+      function conversionRate(current, previous) {
+        return previous === 0 ? null : (current / previous) * 100;
+      }
+
+      function renderFunnel() {
+        for (let index = 0; index < stageOrder.length; index += 1) {
+          const stage = stageOrder[index];
+          document.querySelector(`#count-${stage}`).textContent = counts[stage];
+          const stageElement = document.querySelector(`[data-stage="${stage}"]`);
+          const conversionElement = document.querySelector(`#conversion-${stage}`);
+          stageElement.classList.remove("largest-drop");
+          conversionElement.replaceChildren();
+
+          if (index === 0) {
+            conversionElement.textContent = "Entrada do funil";
+            continue;
+          }
+
+          const previousStage = stageOrder[index - 1];
+          const rate = conversionRate(counts[stage], counts[previousStage]);
+          const conversion = document.createElement("strong");
+          conversion.textContent = rate === null ? "—" : `${rate.toFixed(1)}%`;
+          conversionElement.append(conversion, " de conversão");
+        }
+
+        const conversionRates = stageOrder.slice(1).map((stage, index) => ({
+          stage,
+          rate: conversionRate(counts[stage], counts[stageOrder[index]]),
+        }));
+        const validRates = conversionRates.filter(({ rate }) => rate !== null);
+
+        if (validRates.length > 0) {
+          const largestDrop = validRates.reduce((largest, current) =>
+            current.rate < largest.rate ? current : largest,
+          );
+          const stageElement = document.querySelector(
+            `[data-stage="${largestDrop.stage}"]`,
+          );
+          const conversionElement = document.querySelector(
+            `#conversion-${largestDrop.stage}`,
+          );
+          const drop = document.createElement("span");
+          drop.className = "drop-badge";
+          drop.textContent = `Maior queda: ${(100 - largestDrop.rate).toFixed(1)}%`;
+          stageElement.classList.add("largest-drop");
+          conversionElement.append(document.createElement("br"), drop);
+        }
+
+        document.querySelector("#visit-total").textContent =
+          `${counts.acquisition} ${counts.acquisition === 1 ? "aquisição" : "aquisições"}`;
+      }
+
+      function recordStage(stage) {
+        counts[stage] += 1;
+        saveCounts();
+        renderFunnel();
+      }
+
+      document.querySelector("#try-button").addEventListener("click", (event) => {
+        if (journey.activation) return;
+        journey.activation = true;
+        recordStage("activation");
+        event.currentTarget.disabled = true;
+        document.querySelector("#return-button").disabled = false;
+        document.querySelector("#action-message").textContent =
+          "Primeira experiência registrada. Agora, você voltaria a usar?";
+      });
+
+      document.querySelector("#return-button").addEventListener("click", (event) => {
+        if (journey.retention) return;
+        journey.retention = true;
+        recordStage("retention");
+        event.currentTarget.disabled = true;
+        document.querySelector("#pay-button").disabled = false;
+        document.querySelector("#action-message").textContent =
+          "Retorno registrado. Você pagaria por este serviço?";
+      });
+
+      document.querySelector("#pay-button").addEventListener("click", (event) => {
+        if (journey.revenue) return;
+        journey.revenue = true;
+        recordStage("revenue");
+        event.currentTarget.disabled = true;
+        document.querySelector("#rating").disabled = false;
+        document.querySelector("#submit-rating").disabled = false;
+        document.querySelector("#action-message").textContent =
+          "Interesse em pagar registrado. Dê sua nota de recomendação de 0 a 10.";
+      });
+
+      document.querySelector("#nps-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!journey.revenue || journey.recommendation) return;
+
+        const ratingInput = document.querySelector("#rating");
+        const rating = Number(ratingInput.value);
+        if (
+          ratingInput.value === "" ||
+          !Number.isInteger(rating) ||
+          rating < 0 ||
+          rating > 10
+        ) {
+          ratingInput.focus();
+          return;
+        }
+
+        journey.recommendation = true;
+        if (rating >= 9) {
+          recordStage("recommendation");
+          document.querySelector("#action-message").textContent =
+            "Recomendação registrada. Obrigado por participar do funil!";
+        } else {
+          document.querySelector("#action-message").textContent =
+            "Nota registrada; apenas notas 9 e 10 contam como recomendação no funil.";
+        }
+        ratingInput.disabled = true;
+        document.querySelector("#submit-rating").disabled = true;
+      });
+
+      document.querySelector("#clear-funnel").addEventListener("click", () => {
+        counts = { ...emptyCounts, acquisition: 1 };
+        for (const stage of Object.keys(journey)) journey[stage] = false;
+        saveCounts();
+        renderFunnel();
+        document.querySelector("#try-button").disabled = false;
+        document.querySelector("#return-button").disabled = true;
+        document.querySelector("#pay-button").disabled = true;
+        document.querySelector("#rating").disabled = true;
+        document.querySelector("#submit-rating").disabled = true;
+        document.querySelector("#nps-form").reset();
+        document.querySelector("#action-message").textContent =
+          "Métricas zeradas. A abertura desta página continua registrada como uma aquisição.";
+      });
+
+      recordStage("acquisition");
+    </script>
+  </body>
+</html>
