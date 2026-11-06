@@ -1,7 +1,7 @@
 opencollection: 1.0.0
 
 info:
-  name: colecao
+  name: API de Reparos
 config:
   proxy:
     inherit: true

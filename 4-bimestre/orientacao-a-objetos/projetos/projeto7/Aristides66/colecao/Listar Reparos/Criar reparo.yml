@@ -6,6 +6,14 @@ info:
 http:
   method: POST
   url: http://localhost:3000/reparos
+  body:
+    type: json
+    data: |-
+      {
+        "ciclista": "Diego",
+        "peca": "Pneu",
+        "valor": 90
+      }
   auth: inherit
 
 settings:

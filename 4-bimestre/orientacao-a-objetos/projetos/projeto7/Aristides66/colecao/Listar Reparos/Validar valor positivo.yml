@@ -4,8 +4,16 @@ info:
   seq: 1
 
 http:
-  method: GET
+  method: POST
   url: http://localhost:3000/reparos
+  body:
+    type: json
+    data: |-
+      {
+        "ciclista": "Diego",
+        "peca": "Pneu",
+        "valor": 0
+      }
   auth: inherit
 
 settings:
