@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Pedido de Ajuda</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 650px;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        .descricao {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .resultado {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+        }
+
+        .resultado h2 {
+            color: #1d4ed8;
+            margin-bottom: 15px;
+        }
+
+        #mensagemFinal {
+            white-space: pre-wrap;
+            line-height: 1.7;
+            color: #334155;
+            margin-bottom: 20px;
+            overflow-wrap: anywhere;
+        }
+
+        .copiar {
+            background: #16a34a;
+        }
+
+        .copiar:hover {
+            background: #15803d;
+        }
+
+        .aviso {
+            color: #dc2626;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .contador {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Pedido de Ajuda</h1>
+
+        <p class="descricao">
+            Preencha as informações para que alguém possa
+            entender seu problema e ajudar você.
+        </p>
+
+        <form id="formulario">
+
+            <label for="objetivo">1. O que eu quero fazer?</label>
+            <textarea id="objetivo"
+                placeholder="Explique o que você está tentando fazer..."
+                required></textarea>
+
+            <label for="problema">2. O que está acontecendo?</label>
+            <textarea id="problema"
+                placeholder="Descreva o erro ou a dificuldade..."
+                required></textarea>
+
+            <label for="local">3. Onde está acontecendo?</label>
+            <textarea id="local"
+                placeholder="Informe o arquivo, tela, código ou atividade..."
+                required></textarea>
+
+            <label for="tentativas">4. O que eu já tentei?</label>
+            <textarea id="tentativas"
+                placeholder="Explique o que você já fez para tentar resolver..."
+                required></textarea>
+
+            <p class="contador">
+                Mínimo de 20 caracteres neste campo.
+            </p>
+
+            <label for="ajuda">5. O que eu preciso de você?</label>
+            <textarea id="ajuda"
+                placeholder="Explique como a pessoa pode ajudar..."
+                required></textarea>
+
+            <p class="aviso" id="aviso"></p>
+
+            <button type="submit">Enviar pedido de ajuda</button>
+
+        </form>
+
+        <div class="resultado" id="resultado">
+
+            <h2>Pedido de ajuda gerado!</h2>
+
+            <div id="mensagemFinal"></div>
+
+            <button type="button" class="copiar" id="botaoCopiar">
+                Copiar mensagem
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const formulario = document.getElementById("formulario");
+        const aviso = document.getElementById("aviso");
+        const resultado = document.getElementById("resultado");
+        const mensagemFinal = document.getElementById("mensagemFinal");
+
+        formulario.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const objetivo = document.getElementById("objetivo").value.trim();
+            const problema = document.getElementById("problema").value.trim();
+            const local = document.getElementById("local").value.trim();
+            const tentativas = document.getElementById("tentativas").value.trim();
+            const ajuda = document.getElementById("ajuda").value.trim();
+
+            // Verifica se todos os campos foram preenchidos
+
+            if (!objetivo || !problema || !local || !tentativas || !ajuda) {
+
+                aviso.textContent = "Preencha todos os campos antes de enviar!";
+                aviso.style.display = "block";
+                resultado.style.display = "none";
+
+                return;
+            }
+
+            // Verifica o tamanho mínimo do campo de tentativas
+
+            if (tentativas.length < 20) {
+
+                aviso.textContent =
+                    "O campo 'O que eu já tentei' precisa ter pelo menos 20 caracteres!";
+
+                aviso.style.display = "block";
+                resultado.style.display = "none";
+
+                return;
+            }
+
+            aviso.style.display = "none";
+
+            // Monta a mensagem formatada
+
+            const mensagem =
+`PEDIDO DE AJUDA
+
+1. O QUE EU QUERO FAZER:
+${objetivo}
+
+2. O QUE ESTÁ ACONTECENDO:
+${problema}
+
+3. ONDE ESTÁ ACONTECENDO:
+${local}
+
+4. O QUE EU JÁ TENTEI:
+${tentativas}
+
+5. O QUE EU PRECISO DE VOCÊ:
+${ajuda}`;
+
+            mensagemFinal.textContent = mensagem;
+
+            resultado.style.display = "block";
+
+        });
+
+        // Botão para copiar a mensagem
+
+        document.getElementById("botaoCopiar").addEventListener("click", async function() {
+
+            const texto = mensagemFinal.textContent;
+
+            try {
+                await navigator.clipboard.writeText(texto);
+                alert("Mensagem copiada com sucesso!");
+
+            } catch (erro) {
+                alert("Não foi possível copiar automaticamente. Selecione e copie o texto.");
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

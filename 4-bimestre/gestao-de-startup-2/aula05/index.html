@@ -1,0 +1,858 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gerenciador de Backlog</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            color: #172033;
+        }
+
+        header {
+            background: #142b55;
+            color: white;
+            padding: 35px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #cbdaf2;
+        }
+
+        nav {
+            background: #203e70;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #a9caff;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px #00000010;
+        }
+
+        h2 {
+            margin-bottom: 18px;
+            color: #142b55;
+        }
+
+        h3 {
+            margin: 15px 0 8px;
+            color: #244477;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px;
+            background: #2457a6;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #173f80;
+        }
+
+        .indicadores {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .indicador {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 12px #00000010;
+        }
+
+        .indicador h3 {
+            font-size: 28px;
+            color: #2457a6;
+            margin: 5px;
+        }
+
+        .indicador p {
+            color: #64748b;
+        }
+
+        .formula {
+            background: #edf3fc;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+            color: #244477;
+            font-weight: bold;
+        }
+
+        .tabela {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th, td {
+            padding: 13px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .tag {
+            padding: 5px 8px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .Must {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .Should {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .Could {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .Wont {
+            background: #e5e7eb;
+            color: #4b5563;
+        }
+
+        .excluir {
+            background: #ffe5e5;
+            color: #991b1b;
+            padding: 8px;
+        }
+
+        .secundario {
+            background: #64748b;
+            margin-top: 15px;
+        }
+
+        .texto {
+            line-height: 1.7;
+            color: #475569;
+        }
+
+        .texto ul {
+            margin: 10px 0 15px 25px;
+        }
+
+        .texto p {
+            margin-bottom: 10px;
+        }
+
+        .texto table {
+            min-width: 0;
+            margin: 15px 0;
+        }
+
+        .texto th, .texto td {
+            font-size: 13px;
+        }
+
+        .resposta {
+            background: #edf3fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #142b55;
+            color: white;
+        }
+
+        @media (max-width: 750px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            .indicadores {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Gerenciador de Backlog</h1>
+        <p>Sistema de Presença Automatizada</p>
+        <p>Aula 5 - Documentação e Gerenciamento de Prioridades</p>
+    </header>
+
+    <nav>
+        <a href="#cadastro">Cadastrar</a>
+        <a href="#indicadores">Indicadores</a>
+        <a href="#backlog">Backlog</a>
+        <a href="#adr">ADR</a>
+        <a href="#respostas">Respostas</a>
+    </nav>
+
+    <main>
+
+        <!-- CADASTRO -->
+
+        <section id="cadastro">
+
+            <h2>Novo item do Backlog</h2>
+
+            <p class="texto">
+                Cadastre as tarefas do Sistema de Presença Automatizada
+                e organize suas prioridades.
+            </p>
+
+            <br>
+
+            <form id="formBacklog">
+
+                <input
+                    type="text"
+                    id="titulo"
+                    placeholder="Título da tarefa"
+                    required
+                >
+
+                <select id="moscow">
+                    <option value="Must">Must have</option>
+                    <option value="Should">Should have</option>
+                    <option value="Could">Could have</option>
+                    <option value="Won't">Won't have</option>
+                </select>
+
+                <input
+                    type="number"
+                    id="alcance"
+                    placeholder="Alcance (usuários)"
+                    min="1"
+                    required
+                >
+
+                <select id="impacto">
+                    <option value="1">Impacto 1 - Pouco</option>
+                    <option value="2">Impacto 2 - Médio</option>
+                    <option value="3" selected>Impacto 3 - Muito</option>
+                </select>
+
+                <input
+                    type="number"
+                    id="esforco"
+                    placeholder="Esforço em horas"
+                    min="1"
+                    step="0.5"
+                    required
+                >
+
+                <button type="submit">
+                    Adicionar tarefa
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- INDICADORES -->
+
+        <section id="indicadores">
+
+            <h2>Indicadores do Projeto</h2>
+
+            <div class="indicadores">
+
+                <div class="indicador">
+                    <h3>200</h3>
+                    <p>Aquisição</p>
+                </div>
+
+                <div class="indicador">
+                    <h3>120</h3>
+                    <p>Ativação</p>
+                </div>
+
+                <div class="indicador">
+                    <h3>90</h3>
+                    <p>Retenção</p>
+                </div>
+
+                <div class="indicador">
+                    <h3>-10</h3>
+                    <p>NPS</p>
+                </div>
+
+            </div>
+
+            <p class="texto">
+                Os indicadores representam os dados utilizados
+                para orientar as decisões e melhorias do sistema.
+            </p>
+
+        </section>
+
+        <!-- BACKLOG -->
+
+        <section id="backlog">
+
+            <h2>Backlog Priorizado</h2>
+
+            <p class="texto">
+                As tarefas são organizadas automaticamente de acordo
+                com a maior pontuação RICE.
+            </p>
+
+            <br>
+
+            <div class="formula">
+                RICE = (Alcance × Impacto) ÷ Esforço
+            </div>
+
+            <div class="tabela">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tarefa</th>
+                            <th>MoSCoW</th>
+                            <th>Alcance</th>
+                            <th>Impacto</th>
+                            <th>Esforço</th>
+                            <th>RICE</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="listaBacklog"></tbody>
+
+                </table>
+
+            </div>
+
+            <button class="secundario" id="restaurar">
+                Restaurar exemplos
+            </button>
+
+        </section>
+
+        <!-- ADR -->
+
+        <section id="adr">
+
+            <h2>ADR 001 — Simplificar o cadastro e orientar os responsáveis</h2>
+
+            <div class="texto">
+
+                <p><strong>Data:</strong> 23/11/2026</p>
+
+                <p><strong>Status:</strong> Aceita</p>
+
+                <h3>Contexto</h3>
+
+                <p>
+                    O Sistema de Presença Automatizada tem como objetivo
+                    registrar a presença dos alunos por meio de
+                    reconhecimento automatizado e facilitar a comunicação
+                    entre a escola e os responsáveis.
+                </p>
+
+                <p>
+                    Na análise dos indicadores, foram identificados
+                    200 usuários na aquisição, 120 na ativação e
+                    90 na retenção. A taxa de ativação é de 60%.
+                </p>
+
+                <p>
+                    O NPS registrado foi -10, considerando 10 respostas:
+                    3 promotores, 3 neutros e 4 detratores.
+                </p>
+
+                <p>
+                    Esses dados indicam a necessidade de melhorar
+                    a experiência dos usuários durante o primeiro acesso.
+                </p>
+
+                <h3>Decisão</h3>
+
+                <p>
+                    Vamos priorizar a simplificação do cadastro e a criação
+                    de orientações para os responsáveis que possuem
+                    dificuldades para utilizar a plataforma.
+                </p>
+
+                <p>
+                    A tarefa será classificada como <strong>Must have</strong>,
+                    pois busca resolver uma dificuldade importante
+                    na etapa de ativação.
+                </p>
+
+                <h3>Consequências</h3>
+
+                <p><strong>Positivas:</strong></p>
+
+                <ul>
+                    <li>O cadastro poderá ficar mais simples.</li>
+                    <li>Os responsáveis terão instruções de utilização.</li>
+                    <li>Redução das dificuldades no primeiro acesso.</li>
+                    <li>Possibilidade de melhorar a ativação dos usuários.</li>
+                </ul>
+
+                <p><strong>Negativas:</strong></p>
+
+                <ul>
+                    <li>Será necessário tempo da equipe para realizar as mudanças.</li>
+                    <li>Será preciso testar as alterações com os usuários.</li>
+                </ul>
+
+                <h3>Resultado esperado</h3>
+
+                <p>
+                    Melhorar a experiência dos responsáveis no primeiro
+                    acesso e trabalhar para elevar a taxa de ativação
+                    de 60% para 75%.
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- RESPOSTAS -->
+
+        <section id="respostas">
+
+            <h2>Respostas da Atividade</h2>
+
+            <div class="texto">
+
+                <h3>1. Quais os três primeiros itens e o RICE de cada um?</h3>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Posição</th>
+                            <th>Item</th>
+                            <th>Cálculo</th>
+                            <th>RICE</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>1º</td>
+                            <td>Simplificar cadastro e orientar responsáveis</td>
+                            <td>(120 × 3) ÷ 3</td>
+                            <td>120</td>
+                        </tr>
+
+                        <tr>
+                            <td>2º</td>
+                            <td>Melhorar precisão do reconhecimento</td>
+                            <td>(200 × 3) ÷ 6</td>
+                            <td>100</td>
+                        </tr>
+
+                        <tr>
+                            <td>3º</td>
+                            <td>Criar verificação manual</td>
+                            <td>(90 × 3) ÷ 3</td>
+                            <td>90</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <h3>2. A ordem do RICE mudou alguma coisa que você tinha planejado?</h3>
+
+                <div class="resposta">
+
+                    Sim. A priorização pelo RICE mostrou que simplificar
+                    o cadastro e orientar os responsáveis deve vir primeiro,
+                    pois apresenta a maior pontuação.
+
+                    A melhoria da precisão do reconhecimento ficou em
+                    segundo lugar, enquanto a verificação manual ficou
+                    em terceiro.
+
+                    O desenvolvimento de um aplicativo independente
+                    foi classificado como Won't, pois não será realizado
+                    nesta etapa.
+
+                    Dessa forma, a equipe consegue concentrar seus
+                    esforços nas melhorias mais importantes para
+                    o funcionamento do sistema.
+
+                </div>
+
+                <h3>3. Dados utilizados</h3>
+
+                <ul>
+                    <li>Aquisição: 200 usuários.</li>
+                    <li>Ativação: 120 usuários (60%).</li>
+                    <li>Retenção: 90 usuários (75% dos ativados).</li>
+                    <li>NPS: -10.</li>
+                </ul>
+
+                <p>
+                    Os valores de alcance e esforço das tarefas são
+                    estimativas utilizadas para realizar a priorização.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Sistema de Presença Automatizada</p>
+        <p>Atividade de Documentação Colaborativa e Gerenciamento de Prioridades</p>
+    </footer>
+
+    <script>
+
+        // TAREFAS INICIAIS
+
+        const exemplos = [
+            {
+                id: 1,
+                titulo: "Simplificar o cadastro e orientar os responsáveis",
+                moscow: "Must",
+                alcance: 120,
+                impacto: 3,
+                esforco: 3
+            },
+
+            {
+                id: 2,
+                titulo: "Melhorar a precisão do reconhecimento",
+                moscow: "Should",
+                alcance: 200,
+                impacto: 3,
+                esforco: 6
+            },
+
+            {
+                id: 3,
+                titulo: "Criar verificação manual quando o reconhecimento falhar",
+                moscow: "Should",
+                alcance: 90,
+                impacto: 3,
+                esforco: 3
+            },
+
+            {
+                id: 4,
+                titulo: "Enviar notificações de presença aos responsáveis",
+                moscow: "Could",
+                alcance: 90,
+                impacto: 2,
+                esforco: 3
+            },
+
+            {
+                id: 5,
+                titulo: "Desenvolver aplicativo independente nesta etapa",
+                moscow: "Won't",
+                alcance: 15,
+                impacto: 1,
+                esforco: 8
+            }
+        ];
+
+        // CARREGAR DADOS
+
+        let itens = JSON.parse(
+            localStorage.getItem("backlogPresenca")
+        );
+
+        if (!Array.isArray(itens)) {
+            itens = exemplos.map(item => ({ ...item }));
+            salvar();
+        }
+
+        const form = document.getElementById("formBacklog");
+
+        const lista = document.getElementById("listaBacklog");
+
+        // SALVAR NO NAVEGADOR
+
+        function salvar() {
+
+            localStorage.setItem(
+                "backlogPresenca",
+                JSON.stringify(itens)
+            );
+
+        }
+
+        // CALCULAR RICE
+
+        function calcularRICE(item) {
+
+            return (
+                item.alcance * item.impacto
+            ) / item.esforco;
+
+        }
+
+        // MOSTRAR BACKLOG
+
+        function mostrarBacklog() {
+
+            const ordenados = [...itens].sort(
+                (a, b) => calcularRICE(b) - calcularRICE(a)
+            );
+
+            if (ordenados.length === 0) {
+
+                lista.innerHTML = `
+                    <tr>
+                        <td colspan="8">
+                            Nenhuma tarefa cadastrada.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            lista.innerHTML = ordenados.map((item, indice) => {
+
+                const classe = item.moscow === "Won't"
+                    ? "Wont"
+                    : item.moscow;
+
+                const rice = calcularRICE(item);
+
+                return `
+                    <tr>
+
+                        <td>${indice + 1}</td>
+
+                        <td>${escapar(item.titulo)}</td>
+
+                        <td>
+                            <span class="tag ${classe}">
+                                ${item.moscow}
+                            </span>
+                        </td>
+
+                        <td>${item.alcance}</td>
+
+                        <td>${item.impacto}</td>
+
+                        <td>${item.esforco} h</td>
+
+                        <td>
+                            <strong>${rice.toLocaleString("pt-BR", {
+                                maximumFractionDigits: 2
+                            })}</strong>
+                        </td>
+
+                        <td>
+                            <button
+                                class="excluir"
+                                data-id="${item.id}">
+                                Excluir
+                            </button>
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join("");
+
+        }
+
+        // PROTEGER TEXTOS INSERIDOS
+
+        function escapar(texto) {
+
+            return String(texto).replace(/[&<>"']/g, caractere => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            })[caractere]);
+
+        }
+
+        // ADICIONAR TAREFA
+
+        form.addEventListener("submit", function(evento) {
+
+            evento.preventDefault();
+
+            const titulo = document.getElementById("titulo").value.trim();
+
+            const moscow = document.getElementById("moscow").value;
+
+            const alcance = Number(
+                document.getElementById("alcance").value
+            );
+
+            const impacto = Number(
+                document.getElementById("impacto").value
+            );
+
+            const esforco = Number(
+                document.getElementById("esforco").value
+            );
+
+            if (!titulo || alcance < 1 || esforco <= 0) {
+
+                alert("Preencha os campos corretamente!");
+
+                return;
+
+            }
+
+            const novoItem = {
+
+                id: Date.now(),
+
+                titulo: titulo,
+
+                moscow: moscow,
+
+                alcance: alcance,
+
+                impacto: impacto,
+
+                esforco: esforco
+
+            };
+
+            itens.push(novoItem);
+
+            salvar();
+
+            mostrarBacklog();
+
+            form.reset();
+
+        });
+
+        // EXCLUIR TAREFA
+
+        lista.addEventListener("click", function(evento) {
+
+            const botao = evento.target.closest("[data-id]");
+
+            if (!botao) return;
+
+            const id = Number(botao.dataset.id);
+
+            itens = itens.filter(item => item.id !== id);
+
+            salvar();
+
+            mostrarBacklog();
+
+        });
+
+        // RESTAURAR EXEMPLOS
+
+        document.getElementById("restaurar")
+            .addEventListener("click", function() {
+
+                itens = exemplos.map(item => ({ ...item }));
+
+                salvar();
+
+                mostrarBacklog();
+
+            });
+
+        // INICIAR SISTEMA
+
+        mostrarBacklog();
+
+    </script>
+
+</body>
+</html>
